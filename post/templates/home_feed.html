@@ -1,0 +1,21 @@
+{% extends 'base_site.html' %}
+{% block content %}
+    <div class="row mt-2">
+        <div class="col-sm-12 col-md-4 col-lg-4"></div>
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            {% for post in posts %}
+                <div class="card mt-2 mb-3 shadow-sm">
+                    <div class="card-body">
+                        <img class="w-100 img-responsive" src="{{ post.picture.url }}" alt="{{ post.caption }}" />
+                        <p>{{ post.caption }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <span>Like: 1</span>
+                        <span>Comment: 2</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4"></div>
+    </div>
+{% endblock content %}
