@@ -12,6 +12,9 @@
                     <div class="card-footer">
                         <span>Like: 1</span>
                         <span>Comment: 2</span>
+                        <div class="float-end">
+                            <a href="{% url 'post:edit_post' post.id %}" class="btn btn-info btn-xs">Edit</a>
+                        </div>
                     </div>
                 </div>
             {% endfor %}

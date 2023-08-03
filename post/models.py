@@ -2,11 +2,20 @@ from django.db import models
 from django.conf import settings
 
 
+class PostStatus(models.TextChoices):
+    PUBLIC = ("public", "Public")
+    PRIVATE = ("private", "Private")
+
 class Post(models.Model):
     picture = models.ImageField(upload_to="posts/")
     caption = models.CharField(max_length=100, blank=True, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True
+    )
+    status = models.CharField(
+        max_length=100,
+        choices=PostStatus.choices,
+        default=PostStatus.PRIVATE
     )
 
     class Meta:
