@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div class="row">
+        <div class="col-sm-12 col-md-4 col-lg-4"></div>
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            <h2>Sign Up</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {% for error in field.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.help_text %}
+                            <span class="text-muted">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <input type="submit" class="btn btn-primary" value="Sign Up" />
+            </form>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4"></div>
+    </div>
+{% endblock main %}
