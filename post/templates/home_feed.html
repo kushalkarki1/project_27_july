@@ -28,14 +28,16 @@
             </div>
             <div class="card-footer">
                 <div class="d-inline-block">
-                    <a href="" class="text-decoration-none">
-                        <i class="fa-regular fa-heart"></i>
+                    <a data-postid="{{post.id}}" href="{% url 'post:like_post' post.id %}" class="text-decoration-none like-post">
+                        <i class="fa-regular fa-heart fs-5"></i>
                     </a>
+                    <span id="like-{{post.id}}">{{ post.like_count }}</span>
                 </div>
                 <div class="float-end">
-                    <a href="" class="text-decoration-none">
+                    <a href="{% url 'post:comment_post' post.id %}" class="text-decoration-none">
                         <i class="fa-regular fa-comment"></i>&nbsp;Comment
                     </a>
+                    {{ post.comment_count }}
                 </div>
             </div>
         </div>
@@ -80,6 +82,23 @@
         delBtn.addEventListener("click", function(){
             let delForm = document.getElementById("del-form");
             delForm.submit();
-        })
+        });
+
+        $(".like-post").click(function(evt){
+            evt.preventDefault();
+            let url = $(this).attr("href");
+            let postid = $(this).data("postid");
+            $.ajax({
+                "url": url,
+                "method": "GET",
+                "dataType": "json",
+                success: function(res){
+                    $("#like-"+postid).html(res.like_count);
+                },
+                error:function(res){
+                    console.log(res);
+                }
+            });
+        });
     </script>
 {% endblock script %}

@@ -1,5 +1,5 @@
 from django import forms
-from post.models import Post
+from post.models import Post, Comment
 
 
 # class TestForm(forms.Form):
@@ -17,6 +17,17 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ["picture", "caption", "status", ]
         # exclude = ["user", ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs["class"] = "form-control"
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["text", ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

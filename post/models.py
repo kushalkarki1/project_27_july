@@ -23,7 +23,15 @@ class Post(models.Model):
         verbose_name_plural = "Posts"
 
     def __str__(self):
-        return str(self.id)
+        return self.caption
+
+    @property
+    def like_count(self):
+        return self.like_set.filter(is_liked=True).count()
+
+    @property
+    def comment_count(self):
+        return self.comment_set.count()
 
 
 class Like(models.Model):

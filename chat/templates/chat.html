@@ -1,0 +1,46 @@
+{% extends 'base_site.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="card-body">
+                {% if users %}
+                    {% for user in users %}
+                        <a href="{% url 'chat:message' user.username %}">{{user.username}}</a><br />
+                    {% endfor %}
+                {% else %}
+                    <strong class="text-center">No users found</strong>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            {% if not user_list %}
+            <div class="card">
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.from_user == request.user %}
+                                <div class="float-end text-primary">
+                                    {{ message }}
+                                </div><br>
+                            {% else %}
+                                <div class="text-secondary">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <strong>No message found with this user.</strong>
+                    {% endif %}
+                </div>
+                <div class="footer">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="submit" class="btn btn-primary" value="Send" />
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

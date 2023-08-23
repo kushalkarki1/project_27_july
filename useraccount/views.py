@@ -34,3 +34,5 @@ def signup(request):
         return HttpResponseRedirect(reverse("user:login"))
     context = {"form": form}
     return render(request, "signup.html", context)
+
+
