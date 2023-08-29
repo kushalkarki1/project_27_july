@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse, get_object_or_404
 from post.models import Post, Like, Comment
 from post.forms import PostForm, CommentForm
 from django.http import HttpResponseRedirect, JsonResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib import messages
 
 def home_feed(request):
@@ -12,6 +12,7 @@ def home_feed(request):
 
 
 @login_required
+@permission_required(perm="add_post")
 def add_post(request):
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -76,3 +77,24 @@ def comment_post(request, post_id):
         return HttpResponseRedirect(reverse("post:comment_post", args=(post_id, )))
     context = {"post": post, "comments": comments, "form": form}
     return render(request, "post_comment.html", context)
+
+
+
+from rest_framework import serializers
+from rest_framework.generics import ListAPIView
+from rest_framework import viewsets
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ["id", "caption", "picture", "status", ]
+
+
+class PostAPIView(ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+class PostViewSet(viewsets.ModelViewSet):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()

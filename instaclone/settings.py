@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "useraccount",
     "post",
     "chat",
+    "rest_framework",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
